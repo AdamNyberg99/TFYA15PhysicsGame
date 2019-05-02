@@ -2,6 +2,7 @@ import java.awt.Graphics2D;
 import java.awt.Color;
 
 
+@SuppressWarnings("MagicConstant")
 public class Particle {
 	
 	private double vx;
@@ -24,8 +25,8 @@ public class Particle {
 		this.y = y;
 		this.r = r;
 		this.color = color;
-		this.vx = -3.0;
-		this.vy = -1.5;
+		this.vx = -.0;
+		this.vy = -0.5;
 	}
 	
 	

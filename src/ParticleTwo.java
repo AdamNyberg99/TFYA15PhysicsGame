@@ -5,6 +5,8 @@ import java.awt.Color;
 @SuppressWarnings("MagicConstant")
 public class ParticleTwo {
 
+    private Vec2D prevPos, curPos, vel, acel;
+
     private double vx;
     private double vy;
 
@@ -30,14 +32,14 @@ public class ParticleTwo {
         return y;
     }
 
-    public ParticleTwo(double x, double y, double r, double mass, double vx, double vy, Color color) {
-        this.x = x;
+    public ParticleTwo(double x, double y, double r, double mass, double V0x, double V0y, Color color) {
+        this.prevPos = new Vec2D((int) x, (int)y);
         this.y = y;
         this.r = r;
         this.color = color;
         this.mass = mass;
-        this.vx = vx;
-        this.vy = vy;
+        this.vx = V0x;
+        this.vy = V0y;
         this.dt = 0.01;
         this.prev_x = x - vx*dt;
         this.prev_y = y - vy*dt;
@@ -47,13 +49,11 @@ public class ParticleTwo {
     public void update() {
         calcNewPos();
 
-
-
-
+        /*
         System.out.println(this.color);
         System.out.println("ax = " + ax);
         System.out.println("ay = " + ay);
-
+        */
 
     }
 
@@ -71,30 +71,28 @@ public class ParticleTwo {
         vy += ay *dt;
     }
 
+    public void verlet(){
+
+    }
+
 
     public void gravitation(ParticleTwo pt){
         double mass2 = pt.mass;
         double mass1 = mass;
         double dx = pt.x - x;
         double dy = pt.y - y;
-        double rad = Math.atan(y/x);
+        double rad = Math.atan(dy/dx);
         double radius = Math.sqrt(dx * dx + dy * dy);
         double force;
-        double G = 6.67338 * 0.005;
+        double G = -6.67338 * 0.005;
         System.out.println("vinkel " + rad);
         System.out.println("dx " + dx);
         System.out.println("dy " + dy);
         force = G * mass1*mass2 / (radius*radius);
-        ax = force/mass1 * Math.cos(rad);
-        ay = force/mass1 * Math.sin(rad);
+        ax = force/mass1 * Math.cos(rad+Math.PI);
+        ay = force/mass1 * Math.sin(rad+Math.PI);
 
-       if(dx > 0){
-            ax *=-1;
-        }
-        if(dy > 0){
-            ay *= -1;
-        }
-    }
+         }
 
     public void render(Graphics2D g) {
         g.setColor(color);

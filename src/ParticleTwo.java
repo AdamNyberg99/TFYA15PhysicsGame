@@ -9,40 +9,49 @@ public class ParticleTwo {
 
     private double vx;
     private double vy;
-
+/*
     private double prev_x;
     private double next_x;
     private double prev_y;
     private double next_y;
     private double ax;
     private double ay;
+ */
     private double dt;
     private double mass;
 
     private double r;
     private Color color;
 
-    private double x;
+    //private double x;
     public double getX() {
-        return x;
+        return curPos.getX();
     }
 
-    private double y;
+    //private double y;
     public double getY() {
-        return y;
+        return curPos.getY();
     }
 
     public ParticleTwo(double x, double y, double r, double mass, double V0x, double V0y, Color color) {
-        this.prevPos = new Vec2D((int) x, (int)y);
-        this.y = y;
-        this.r = r;
-        this.color = color;
-        this.mass = mass;
-        this.vx = V0x;
-        this.vy = V0y;
         this.dt = 0.01;
+        System.out.println("x = " + x);
+        System.out.println("y = " + y);
+        this.curPos = new Vec2D(x, y);
+        this.vel = new Vec2D(V0x,V0y);
+        this.prevPos = curPos.sub(vel.mul(dt));
+        System.out.println("prevx = " + prevPos.getX());
+        System.out.println("prevy = " + prevPos.getY());
+        /*
         this.prev_x = x - vx*dt;
         this.prev_y = y - vy*dt;
+         */
+        this.acel = new Vec2D(0,0);
+        this.mass = mass;
+
+        this.r = r;
+        this.color = color;
+
     }
 
 
@@ -58,17 +67,16 @@ public class ParticleTwo {
     }
 
     public void calcNewPos(){
-        next_x = 2 * x - prev_x + ax*dt*dt;
-        next_y = 2 * y - prev_y + ay *dt*dt;
+        Vec2D tempPos;
 
-        prev_x = x;
-        prev_y = y;
+        // Calculates our new position ( next_Pos = 2* currentPos - PrevPos + aceleration*dt^2)
+        tempPos = curPos.mul(2).sub(prevPos).add(acel.mul(dt*dt));
 
-        x = next_x;
-        y = next_y;
+        prevPos = curPos;
+        curPos = tempPos;
+        // Updates the speed (V += a*dt)
+        vel.add(acel.mul(dt));
 
-        vx += ax*dt;
-        vy += ay *dt;
     }
 
     public void verlet(){
@@ -77,26 +85,38 @@ public class ParticleTwo {
 
 
     public void gravitation(ParticleTwo pt){
+        Vec2D dxy;
+
         double mass2 = pt.mass;
         double mass1 = mass;
-        double dx = pt.x - x;
-        double dy = pt.y - y;
-        double rad = Math.atan(dy/dx);
-        double radius = Math.sqrt(dx * dx + dy * dy);
+        dxy = curPos.sub(pt.curPos);
+        //double dx = pt.x - x;
+        //double dy = pt.y - y;
+        double rad = dxy.angle();
+        double radius = dxy.distance();
         double force;
-        double G = -6.67338 * 0.005;
+        double G = 6.67338 * 0.005;
+        /*
         System.out.println("vinkel " + rad);
         System.out.println("dx " + dx);
         System.out.println("dy " + dy);
+        */
+
         force = G * mass1*mass2 / (radius*radius);
+    /*
         ax = force/mass1 * Math.cos(rad+Math.PI);
         ay = force/mass1 * Math.sin(rad+Math.PI);
+     */
+        acel = new Vec2D(-force/mass1 * Math.cos(rad+Math.PI),-force/mass1 * Math.sin(rad+Math.PI));
 
          }
 
     public void render(Graphics2D g) {
         g.setColor(color);
-        g.fillOval((int)Math.round(x-r), (int)Math.round(y-r), (int)Math.round(2*r), (int)Math.round(2*r));
+        g.fillOval((int)Math.round(curPos.getX()-r), (int)Math.round(curPos.getY()-r), (int)Math.round(2*r), (int)Math.round(2*r));
+
+        System.out.println("UP.x = " + curPos.getX());
+        System.out.println("UP.y = " + curPos.getY());
     }
 }
 

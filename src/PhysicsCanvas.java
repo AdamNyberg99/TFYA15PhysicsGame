@@ -22,8 +22,8 @@ public class PhysicsCanvas extends Canvas implements Runnable {
 		setMinimumSize(d);
 		setMaximumSize(d);
 
-		planets.add(new ParticleTwo(530,210,20, 120, 250,-32, Color.BLUE));
-		planets.add(new ParticleTwo(800,450,50,1000000*1000000, 2, -1, Color.YELLOW));
+		planets.add(new ParticleTwo(600,250,20, 120, 140,0, Color.BLUE));
+		planets.add(new ParticleTwo(800,450,50,1000000*1000000, 0, 0, Color.YELLOW));
 		/*
 		p1 = new Particle(750, 450, 30, Color.RED);
 		p2 = new Particle(550, 350, 20, Color.BLUE);
@@ -61,10 +61,9 @@ public class PhysicsCanvas extends Canvas implements Runnable {
 	private void render() {
 		BufferStrategy strategy = getBufferStrategy();
 		Graphics2D g = (Graphics2D) strategy.getDrawGraphics();
-		
+
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
-
 		for(int i = 0; i < planets.size(); i++){
 			planets.get(i).render(g);
 		}

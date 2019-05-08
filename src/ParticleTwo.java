@@ -7,16 +7,6 @@ public class ParticleTwo {
 
     private Vec2D prevPos, curPos, vel, acel;
 
-    private double vx;
-    private double vy;
-/*
-    private double prev_x;
-    private double next_x;
-    private double prev_y;
-    private double next_y;
-    private double ax;
-    private double ay;
- */
     private double dt;
     private double mass;
 
@@ -35,17 +25,10 @@ public class ParticleTwo {
 
     public ParticleTwo(double x, double y, double r, double mass, double V0x, double V0y, Color color) {
         this.dt = 0.01;
-        System.out.println("x = " + x);
-        System.out.println("y = " + y);
         this.curPos = new Vec2D(x, y);
         this.vel = new Vec2D(V0x,V0y);
         this.prevPos = curPos.sub(vel.mul(dt));
-        System.out.println("prevx = " + prevPos.getX());
-        System.out.println("prevy = " + prevPos.getY());
-        /*
-        this.prev_x = x - vx*dt;
-        this.prev_y = y - vy*dt;
-         */
+
         this.acel = new Vec2D(0,0);
         this.mass = mass;
 
@@ -57,15 +40,57 @@ public class ParticleTwo {
 
     public void update() {
         calcNewPos();
+        System.out.println("H = " + PhysicsCanvas.Width);
+        System.out.println("W = " + PhysicsCanvas.Height);
 
-        /*
-        System.out.println(this.color);
-        System.out.println("ax = " + ax);
-        System.out.println("ay = " + ay);
-        */
+        Colission();
+
 
     }
 
+    public void Colission(){
+
+        if(curPos.getX()<r){
+            double prevDxr = prevPos.getX() - r;
+            double curDxr = curPos.getX() - r;
+            //Vec2D sPoint = new Vec2D(r, Math.tan(prevPos.angle())*dx);
+            Vec2D newPos = new Vec2D(curDxr*-1,curPos.getY());
+            Vec2D rePrePOS  = new Vec2D(prevDxr*-1,prevPos.getY());
+
+            prevPos = rePrePOS;
+            curPos = newPos;
+
+        } else if(curPos.getX()> PhysicsCanvas.Width -r){
+            double prevDxr = prevPos.getX() - (PhysicsCanvas.Width - r);
+            double curDxr = curPos.getX() - (PhysicsCanvas.Width - r);
+
+            Vec2D newPos = new Vec2D((PhysicsCanvas.Width - r)- curDxr, curPos.getY());
+            Vec2D rePrePOS  = new Vec2D((PhysicsCanvas.Width - r)+prevDxr, prevPos.getY());
+
+            prevPos = rePrePOS;
+            curPos = newPos;
+        }
+        if(curPos.getY()<r){
+            double prevDyr = prevPos.getY() - r;
+            double curDyr = curPos.getY() - r;
+            //Vec2D sPoint = new Vec2D(r, Math.tan(prevPos.angle())*dx);
+            Vec2D newPos = new Vec2D(curPos.getX(),curDyr*-1);
+            Vec2D rePrePOS  = new Vec2D(prevPos.getX(),prevDyr*-1);
+
+            prevPos = rePrePOS;
+            curPos = newPos;
+
+        } else if(curPos.getY()> PhysicsCanvas.Height -r){
+            double prevDyr = prevPos.getY() - (PhysicsCanvas.Height - r);
+            double curDyr = curPos.getY() - (PhysicsCanvas.Height - r);
+
+            Vec2D newPos = new Vec2D(curPos.getX(), (PhysicsCanvas.Height - r)- curDyr);
+            Vec2D rePrePOS  = new Vec2D(prevPos.getX(), (PhysicsCanvas.Height - r)+prevDyr);
+
+            prevPos = rePrePOS;
+            curPos = newPos;
+        }
+    }
     public void calcNewPos(){
         Vec2D tempPos;
 
@@ -90,23 +115,15 @@ public class ParticleTwo {
         double mass2 = pt.mass;
         double mass1 = mass;
         dxy = curPos.sub(pt.curPos);
-        //double dx = pt.x - x;
-        //double dy = pt.y - y;
+
         double rad = dxy.angle();
         double radius = dxy.distance();
         double force;
         double G = 6.67338 * 0.005;
-        /*
-        System.out.println("vinkel " + rad);
-        System.out.println("dx " + dx);
-        System.out.println("dy " + dy);
-        */
 
         force = G * mass1*mass2 / (radius*radius);
-    /*
-        ax = force/mass1 * Math.cos(rad+Math.PI);
-        ay = force/mass1 * Math.sin(rad+Math.PI);
-     */
+
+        // a = force/mass1 * cos or sin (rad + PI)
         acel = new Vec2D(-force/mass1 * Math.cos(rad+Math.PI),-force/mass1 * Math.sin(rad+Math.PI));
 
          }

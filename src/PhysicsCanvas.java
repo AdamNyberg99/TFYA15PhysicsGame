@@ -10,26 +10,21 @@ public class PhysicsCanvas extends Canvas implements Runnable {
 	
 	private boolean running;
 	private ArrayList<ParticleTwo> planets = new ArrayList<>();
-	/*private Particle p1;
-	private Particle p2;
-	private Particle p3;
-	private Particle p4;*/
 
+	public static final int Width = 1600;
+	public static final int Height = 900;
 
 	public PhysicsCanvas() {
-		Dimension d = new Dimension(1600, 900);
+		Dimension d = new Dimension(Width, Height);
 		setPreferredSize(d);
 		setMinimumSize(d);
 		setMaximumSize(d);
 
-		planets.add(new ParticleTwo(600,250,20, 120, 140,0, Color.BLUE));
-		planets.add(new ParticleTwo(800,450,50,1000000*1000000, 0, 0, Color.YELLOW));
-		/*
-		p1 = new Particle(750, 450, 30, Color.RED);
-		p2 = new Particle(550, 350, 20, Color.BLUE);
-		p3 = new Particle(300, 800, 40, Color.GREEN);
-		p4 = new Particle(400, 200, 50, Color.YELLOW);
-		 */
+		planets.add(new ParticleTwo(600,420,20, 120, 0,-100, Color.BLUE));
+		planets.add(new ParticleTwo(300,100,25, 190, 250,-40, Color.GREEN));
+		planets.add(new ParticleTwo(1500,100,35, 3500, -180,10, Color.magenta));
+		planets.add(new ParticleTwo(300,250,65,1000000*1000000, 60, 40, Color.YELLOW));
+
 	}
 
 
@@ -67,12 +62,6 @@ public class PhysicsCanvas extends Canvas implements Runnable {
 		for(int i = 0; i < planets.size(); i++){
 			planets.get(i).render(g);
 		}
-		/*
-		p1.render(g);
-		p2.render(g);
-		p3.render(g);
-		p4.render(g);
-		 */
 				
 		strategy.show();
 	}
@@ -88,12 +77,7 @@ public class PhysicsCanvas extends Canvas implements Runnable {
 			}
 			planets.get(i).update();
 		}
-		/*
-		p1.update();
-		p2.update();
-		p3.update();
-		p4.update();
-		 */
+
 	}
 
 	public static void main(String[] args) {

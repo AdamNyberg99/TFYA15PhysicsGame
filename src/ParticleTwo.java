@@ -40,8 +40,8 @@ public class ParticleTwo {
 
     public void update() {
         calcNewPos();
-        System.out.println("H = " + PhysicsCanvas.Width);
-        System.out.println("W = " + PhysicsCanvas.Height);
+        //System.out.println("H = " + PhysicsCanvas.Width);
+        //System.out.println("W = " + PhysicsCanvas.Height);
 
         Colission();
 
@@ -127,13 +127,27 @@ public class ParticleTwo {
         acel = new Vec2D(-force/mass1 * Math.cos(rad+Math.PI),-force/mass1 * Math.sin(rad+Math.PI));
 
          }
+    public Vec2D getAcel(){
+        return acel;
+    }
+
+    public void setAcel(Vec2D newAcel) {
+        acel = newAcel;
+    }
+
+    public void setPos(Vec2D newPos){
+        curPos = newPos;
+    }
+    public double getMass(){
+        return mass;
+    }
 
     public void render(Graphics2D g) {
         g.setColor(color);
         g.fillOval((int)Math.round(curPos.getX()-r), (int)Math.round(curPos.getY()-r), (int)Math.round(2*r), (int)Math.round(2*r));
 
-        System.out.println("UP.x = " + curPos.getX());
-        System.out.println("UP.y = " + curPos.getY());
+       // System.out.println("UP.x = " + curPos.getX());
+       // System.out.println("UP.y = " + curPos.getY());
     }
 }
 

@@ -2,28 +2,32 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 
 
-public class PhysicsCanvas extends Canvas implements Runnable {
+public class PhysicsCanvas extends Canvas implements Runnable, ActionListener {
 	
 	private boolean running;
 	private ArrayList<ParticleTwo> planets = new ArrayList<>();
+	public Spring spring;
 
 	public static final int Width = 1600;
 	public static final int Height = 900;
 
 	public PhysicsCanvas() {
+		this.addMouseListener(new MouseInput(this));
 		Dimension d = new Dimension(Width, Height);
 		setPreferredSize(d);
 		setMinimumSize(d);
 		setMaximumSize(d);
-
-		planets.add(new ParticleTwo(600,420,20, 120, 0,-100, Color.BLUE));
+		ParticleTwo p2 = new ParticleTwo(600,420,20, 200, 0,-100, Color.BLUE);
+		planets.add(p2);
 		planets.add(new ParticleTwo(300,100,25, 190, 250,-40, Color.GREEN));
 		planets.add(new ParticleTwo(1500,100,35, 3500, -180,10, Color.magenta));
 		planets.add(new ParticleTwo(300,250,65,1000000*1000000, 60, 40, Color.YELLOW));
+		spring = new Spring(new Vec2D(170,600),50,250, p2);
 
 	}
 
@@ -59,10 +63,11 @@ public class PhysicsCanvas extends Canvas implements Runnable {
 
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
+
 		for(int i = 0; i < planets.size(); i++){
 			planets.get(i).render(g);
 		}
-				
+		spring.render(g);
 		strategy.show();
 	}
 
@@ -77,6 +82,9 @@ public class PhysicsCanvas extends Canvas implements Runnable {
 			}
 			planets.get(i).update();
 		}
+		spring.update();
+	}
+	public void actionPerformed(ActionEvent e) {
 
 	}
 

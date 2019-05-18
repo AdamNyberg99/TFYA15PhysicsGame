@@ -5,13 +5,17 @@ import java.awt.Color;
 @SuppressWarnings("MagicConstant")
 public class ParticleTwo {
 
-    private Vec2D prevPos, curPos, vel, acel;
+    protected Vec2D prevPos, curPos, vel, acel;
 
-    private double dt;
-    private double mass;
+    protected double dt;
+    protected double mass;
 
-    private double r;
-    private Color color;
+    protected double r;
+    protected Color color;
+
+    public ParticleTwo(){
+
+    }
 
     //private double x;
     public double getX() {

@@ -12,6 +12,8 @@ public class PhysicsCanvas extends Canvas implements Runnable, ActionListener {
 	private boolean running;
 	private ArrayList<ParticleTwo> planets = new ArrayList<>();
 	public Spring spring;
+	private ParticleTwo ball;
+	private Pendulum2 pendel2;
 
 	public static final int Width = 1600;
 	public static final int Height = 900;
@@ -22,16 +24,15 @@ public class PhysicsCanvas extends Canvas implements Runnable, ActionListener {
 		setPreferredSize(d);
 		setMinimumSize(d);
 		setMaximumSize(d);
-		ParticleTwo p2 = new ParticleTwo(600,420,20, 200, 0,-100, Color.BLUE);
-		planets.add(p2);
-		planets.add(new ParticleTwo(300,100,25, 190, 250,-40, Color.GREEN));
-		planets.add(new ParticleTwo(1500,100,35, 3500, -180,10, Color.magenta));
-		planets.add(new ParticleTwo(300,250,65,1000000*1000000, 60, 40, Color.YELLOW));
-		spring = new Spring(new Vec2D(170,600),50,250, p2);
 
+		planets.add(pendel2 =new Pendulum2(800, 0, Color.RED, 450));
+		ball = new ParticleTwo(600,420,20, 200, 0,-100, Color.BLUE);
+		planets.add(ball);
+	//	planets.add(new ParticleTwo(300,100,25, 190, 250,-40, Color.GREEN));
+	//	planets.add(new ParticleTwo(1500,100,35, 3500, -180,10, Color.magenta));
+		planets.add(new ParticleTwo(800,600,65,1000000*1000000, 0, 0, Color.YELLOW));
+		spring = new Spring(new Vec2D(170,600),50,250, ball);
 	}
-
-
 
 	@Override
 	public void run() {
@@ -89,6 +90,8 @@ public class PhysicsCanvas extends Canvas implements Runnable, ActionListener {
 	}
 
 	public static void main(String[] args) {
+		System.setProperty("sun.java2d.opengl", "True");
+
 		JFrame myFrame = new JFrame("My physics canvas");
 		PhysicsCanvas physics = new PhysicsCanvas();
 		myFrame.add(physics);

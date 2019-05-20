@@ -17,9 +17,9 @@ public class Pendulum2 extends ParticleTwo {
         this.prevPos = curPos.sub(vel.mul(dt));
 
         this.acel = new Vec2D(0,0);
-        this.mass = 1000;
+        this.mass = 10000;
 
-        this.r = 40;
+        this.r = 45;
         this.color = color;
 
         this.length = length;
@@ -28,7 +28,6 @@ public class Pendulum2 extends ParticleTwo {
     @Override
     public void calcNewPos() {
 
-
         //angleAccel = -5000 / length * Math.sin(angle);
         angleAccel = -acel.getY() / length * Math.sin(angle);
         angleVelocity += angleAccel * dt;
@@ -36,7 +35,6 @@ public class Pendulum2 extends ParticleTwo {
 
         curPos.setX(xanchor + (int) (Math.sin(angle) * length));
         curPos.setY(yanchor + (int) (Math.cos(angle) * length));
-
     }
 
 

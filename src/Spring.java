@@ -9,6 +9,7 @@ public class Spring{
     private int springWidth = 10;
     private ParticleTwo p2;
     private Vec2D newAcel, newBallPos;
+    private boolean ballInAir;
 
     /**
      * Hookes law:
@@ -24,6 +25,7 @@ public class Spring{
         kastarm = restLength;
         this.p2 = p2;
         setBallPos();
+        ballInAir = false;
     }
 
     public void update(){
@@ -31,7 +33,7 @@ public class Spring{
         calcNewLength();
         calcForce();
 
-        if ((p2.getX()>(springPos.getX()-kastarmX)) && ext==0){
+        if (ballInAir && (p2.getX()>(springPos.getX()-kastarmX)) && ext==0){
             if ((p2.getY()>(springPos.getY()+kastarmY))) {
                 p2.setAcel(newAcel);
                 System.out.println("släpper");
@@ -52,10 +54,10 @@ public class Spring{
     }
 
     public void setBallPos(){
+
         p2.setAcel(new Vec2D(0,0));
         newBallPos= new Vec2D(springPos.getX()-kastarmX, springPos.getY()+kastarmY);
         p2.setPos(newBallPos);
-
     }
 
     public void calcForce(){
@@ -91,12 +93,13 @@ public class Spring{
     private void stopExtend(){ ext=0; }
 
     public void decrease(){
-            ext -= 2;
-            kastarm=restLength+ext;
+        ext -= 2;
+        kastarm=restLength+ext;
         if (restLength > kastarm){
             ext= 0;
             kastarm = restLength;
         }
+        ballInAir = true;
     }
 
     public void setMouseX(int x){
@@ -104,5 +107,9 @@ public class Spring{
     }
     public void setMouseY(int y){
         mouseY = y;
+    }
+
+    public boolean ballInAir() {
+        return ballInAir;
     }
 }

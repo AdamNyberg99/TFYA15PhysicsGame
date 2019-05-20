@@ -12,7 +12,6 @@ public class ParticleTwo {
 
     protected double r;
     protected Color color;
-
     public ParticleTwo(){
 
     }
@@ -44,15 +43,10 @@ public class ParticleTwo {
 
     public void update() {
         calcNewPos();
-        //System.out.println("H = " + PhysicsCanvas.Width);
-        //System.out.println("W = " + PhysicsCanvas.Height);
-
-        Colission();
-
-
+        CollissionWalls();
     }
 
-    public void Colission(){
+    public void CollissionWalls(){
 
         if(curPos.getX()<r){
             double prevDxr = prevPos.getX() - r;
@@ -130,7 +124,7 @@ public class ParticleTwo {
         // a = force/mass1 * cos or sin (rad + PI)
         acel = new Vec2D(-force/mass1 * Math.cos(rad+Math.PI),-force/mass1 * Math.sin(rad+Math.PI));
 
-         }
+    }
     public Vec2D getAcel(){
         return acel;
     }
@@ -142,16 +136,19 @@ public class ParticleTwo {
     public void setPos(Vec2D newPos){
         curPos = newPos;
     }
+
     public double getMass(){
         return mass;
     }
+
+    public double getR() {return r;}
 
     public void render(Graphics2D g) {
         g.setColor(color);
         g.fillOval((int)Math.round(curPos.getX()-r), (int)Math.round(curPos.getY()-r), (int)Math.round(2*r), (int)Math.round(2*r));
 
-       // System.out.println("UP.x = " + curPos.getX());
-       // System.out.println("UP.y = " + curPos.getY());
+        // System.out.println("UP.x = " + curPos.getX());
+        // System.out.println("UP.y = " + curPos.getY());
     }
 }
 

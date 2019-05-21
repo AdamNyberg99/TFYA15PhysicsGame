@@ -170,6 +170,24 @@ public class ParticleTwo {
         forces.clear();
     }
 
+    }
+    public Vec2D getAcel(){
+        return acel;
+    }
+
+    public void setAcel(Vec2D newAcel) {
+        acel = newAcel;
+    }
+
+    public void setPos(Vec2D newPos){
+        curPos = newPos;
+    }
+
+    public double getMass(){
+        return mass;
+    }
+
+    public double getR() {return r;}
 
     public void render(Graphics2D g) {
         g.setColor(color);

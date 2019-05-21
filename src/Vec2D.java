@@ -62,4 +62,12 @@ public class Vec2D {
     public double getY() {
         return y;
     }
+
+    public void setX(double xnew) {
+        this.x = xnew;
+    }
+
+    public void setY(double ynew) {
+        this.y = ynew;
+    }
 }

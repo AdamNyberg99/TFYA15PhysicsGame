@@ -73,9 +73,12 @@ public class PhysicsCanvas extends Canvas implements Runnable {
 
 				if(planets.get(i) != planets.get(j)){
 					planets.get(i).gravitation(planets.get(j));
+					//planets.get(i).Colission(planets.get(j));
 				}
+
 			}
 			planets.get(i).update();
+
 		}
 
 	}

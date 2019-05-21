@@ -9,6 +9,7 @@ public class Particle {
 	private double vy;
 	private double r;
 	private Color color;
+
 	
 	private double x;
 	public double getX() {

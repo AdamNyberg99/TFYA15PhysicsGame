@@ -8,6 +8,11 @@ public class Vec2D {
         this.y = y;
     }
 
+    public Vec2D(float dist, double v){
+        this.x = dist * Math.cos(v);
+        this.y = dist * Math.sin(v);
+    }
+
     public Vec2D add(Vec2D V){
         double tempX = this.x;
         double tempY = this.y;
@@ -37,16 +42,16 @@ public class Vec2D {
         return rad;
     }
 
-    public double distance(){
-        double distance = Math.sqrt(x*x + y*y);
+    public float distance(){
+        float distance = (int) Math.sqrt(x*x + y*y);
         return distance;
     }
 
-    public Vec2D div(Vec2D V){
+    public Vec2D div(double K){
         double tempX = this.x;
         double tempY = this.y;
-        tempX /= V.x;
-        tempY /= V.y;
+        tempX /= K;
+        tempY /= K;
         return new Vec2D(tempX, tempY);
     }
 

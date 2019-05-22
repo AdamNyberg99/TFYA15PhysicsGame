@@ -6,14 +6,18 @@ import java.util.ArrayList;
 @SuppressWarnings("MagicConstant")
 public class ParticleTwo {
 
-    private Vec2D prevPos, curPos, vel, acel, F_net;
+    protected Vec2D prevPos, curPos, vel, acel, F_net;
 
-    private double dt;
-    private double mass;
+    protected double dt;
+    protected double mass;
 
-    private double r;
-    private Color color;
-    private ArrayList<Vec2D> forces = new ArrayList<>();
+    protected double r;
+    protected Color color;
+    protected ArrayList<Vec2D> forces = new ArrayList<>();
+
+    public ParticleTwo(){
+
+    }
 
     //private double x;
     public double getX() {
@@ -59,9 +63,13 @@ public class ParticleTwo {
             double V2 = p2.vel.distance();
             double m1 = this.mass;
             double m2 = p2.mass;
-            double dp = Math.PI/2;
+            double dp = dPos.angle();
 
-            double V1x = (((V1*Math.cos(a1-dp)*(m1-m2))+(2*m2*V2*Math.cos(a2-dp)))/(m1+m2))*Math.cos(dp)+V1*Math.sin(a1-dp)*Math.sin(dp);
+
+            double V1x = (((V1*Math.cos(a1-dp)*(m1-m2))+(2*m2*V2*Math.cos(a2-dp)))/(m1+m2))*Math.cos(dp)+V1*Math.sin(a1-dp)*Math.cos(dp+(Math.PI/2));
+            double V1y = (((V1*Math.cos(a1-dp)*(m1-m2))+(2*m2*V2*Math.cos(a2-dp)))/(m1+m2))*Math.sin(dp)+V1*Math.sin(a1-dp)*Math.sin(dp+(Math.PI/2));
+            prevPos = curPos.sub(new Vec2D(V1x/dt,V1y/dt));
+
             /*
             System.out.println("hej");
             double F_s = -K*(L0-L)/2;
@@ -136,19 +144,15 @@ public class ParticleTwo {
 
     }
 
-    public void verlet(){
-
-    }
-
 
     public void gravitation(ParticleTwo pt){
-        Vec2D dxy;
+        Vec2D d;
 
         double mass2 = pt.mass;
-        dxy = pt.curPos.sub(curPos);
+        d = pt.curPos.sub(curPos);
 
-        double rad = dxy.angle();
-        double radius = dxy.distance();
+        double rad = d.angle();
+        double radius = d.distance();
         double force;
         double G = 6.67338 * 0.005;
 
@@ -170,7 +174,7 @@ public class ParticleTwo {
         forces.clear();
     }
 
-    }
+
     public Vec2D getAcel(){
         return acel;
     }

@@ -34,13 +34,13 @@ public class PhysicsCanvas extends Canvas implements Runnable, ActionListener {
 		setMaximumSize(d);
 
 		// ADD GAME COMPONENTS
-		target = new Goal(1300, 700, 100, 100);
+		target = new Goal(1400, 700, 100, 100);
 		planets.add(pendel = new Pendulum2(800,0, Color.RED, 440));
-		planets.add(pendel2 = new Pendulum2(800,0, Color.RED, 320));
-		planets.add(pendel3 = new Pendulum2(800,0, Color.RED, 200));
+		planets.add(pendel2 = new Pendulum2(700,0, Color.RED, 320));
+		planets.add(pendel3 = new Pendulum2(1000,0, Color.RED, 200));
 		planets.add(ball = new ParticleTwo(600,420,20, 10, 0,-100, Color.BLUE));
 		planets.add(sun = new ParticleTwo(800,700,200,1000000000*1000000000, 0, 0, Color.green));
-		spring = new Spring(new Vec2D(170,500),50,350, ball);
+		spring = new Spring(new Vec2D(170.0,500.00),50,350, ball);
 
 		startOver = false;
 	}
@@ -73,8 +73,8 @@ public class PhysicsCanvas extends Canvas implements Runnable, ActionListener {
 		planets.remove(ball);
 
 		// ADD GAME COMPONENTS
-		planets.add(ball = new ParticleTwo(600,420,20, 10, 0,-100, Color.BLUE));
-		spring = new Spring(new Vec2D(170,500),50,350, ball);
+		planets.add(ball = new ParticleTwo(600,420,20, 10, 0,0, Color.BLUE));
+		spring = new Spring(new Vec2D(170.00,500.00),50,350, ball);
 
 		//
 
@@ -97,8 +97,10 @@ public class PhysicsCanvas extends Canvas implements Runnable, ActionListener {
 
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
+
 		for(int i = 0; i < planets.size(); i++){
 			planets.get(i).render(g);
+
 		}
 
 		target.render(g);
@@ -113,10 +115,12 @@ public class PhysicsCanvas extends Canvas implements Runnable, ActionListener {
 
 
 		updateComponents();
+		//ball.Colission(sun);
 
 		if (hitWithSun() || hitWithPendulums()) {
 			startOver = true;
 		}
+
 
 		if (target.checkVictory(ball)) {
 			startOver = true;
@@ -153,7 +157,6 @@ public class PhysicsCanvas extends Canvas implements Runnable, ActionListener {
 
 		for(int i = 0; i < planets.size(); i++){
 			planets.get(i).update();
-
 		}
 
 		spring.update();
@@ -168,15 +171,18 @@ public class PhysicsCanvas extends Canvas implements Runnable, ActionListener {
 	}
 
 	private boolean hitWithPendulums() {
-		if (distance(ball, pendel) <= ball.getR() + pendel.getR()) {
+		if ((distance(ball, pendel) <= ball.getR() + pendel.getR())|| pendel.stringColission(ball) ) {
 			return true;
 		}
-		if (distance(ball, pendel2) <= ball.getR() + pendel.getR()) {
+		if ((distance(ball, pendel2) <= ball.getR() + pendel.getR())|| pendel2.stringColission(ball)) {
 			return true;
 		}
-		if (distance(ball, pendel3) <= ball.getR() + pendel.getR()) {
+		if ((distance(ball, pendel3) <= ball.getR() + pendel.getR())|| pendel3.stringColission(ball)) {
 			return true;
 		}
+
+
+
 		return false;
 	}
 

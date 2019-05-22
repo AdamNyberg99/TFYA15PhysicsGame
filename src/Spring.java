@@ -36,11 +36,9 @@ public class Spring{
         if (ballInAir && (p2.getX()>(springPos.getX()-kastarmX)) && ext==0){
             if ((p2.getY()>(springPos.getY()+kastarmY))) {
                 p2.setAcel(newAcel);
-                System.out.println("släpper");
             }
         }else {
             setBallPos();
-            System.out.println("drar ut");
         }
     }
 

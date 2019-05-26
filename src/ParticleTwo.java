@@ -43,13 +43,15 @@ public class ParticleTwo {
 
     }
 
-
+    // Uppdaterar partikel
     public void update() {
         calcNewPos();
         WallColission();
 
     }
 
+    // Används inte, men upptäcker kollision med parikel pt, om avståndet mellan mittpunkterna är mindre än den samanlagda radien.
+    // Ut kommenterad finns även den metod vi använde oss av fjädrar mellan partiklarnas mittpunkter, men den fungerade inte tillräckligt bra
     public void Colission(ParticleTwo p2){
         int K = 10000000;
         double L0 = this.r + p2.r;
@@ -81,6 +83,9 @@ public class ParticleTwo {
 
     }
 
+    // Upptäcker kollision om avståndet till en vägg är mindre än partikelns radie
+    // Förlyttar partikeln så att den har samma förhållande till x-axeln som den tidigare hade till linjen x=radie
+    // Roterar punkten partikeln 180 grader runt x-axeln och förskjuter sedan tillbaka den med radien
     public void WallColission(){
 
         if(curPos.getX()<r){
@@ -130,6 +135,10 @@ public class ParticleTwo {
 
         }
     }
+    
+    // Beräknar den nya positionen
+    // Förs genom att beräkna Fnet, och sedan den ny positionen enligt:
+    // Pos(nuvarande+1dt)=2*Pos(nuvarand)-Pos(nuvarande-dt)+a*dt^2
     public void calcNewPos(){
         Vec2D tempPos;
         calcFnet();
@@ -144,26 +153,31 @@ public class ParticleTwo {
 
     }
 
-
+    // Beräknar gravitations kraften mellan partikeln och partikel pt, enligt:
+    // Fg= G* (M1*M2/r^2)
     public void gravitation(ParticleTwo pt){
         Vec2D d;
 
         double mass2 = pt.mass;
+        
+        // Vektor för positions skillnaden mellan partiklarna
         d = pt.curPos.sub(curPos);
-
+        
+        // Vinkeln mellan partiklarna
         double rad = d.angle();
+        // Avståndet mellan partiklarna
         double radius = d.distance();
         double force;
         double G = 6.67338 * 0.005;
 
         force = -G * mass*mass2 / (radius*radius);
 
-        // a = force/mass1 * cos or sin (rad + PI)
         Vec2D Fg = new Vec2D((float)(force),rad);
         forces.add(Fg);
 
     }
 
+    // Beräknar fnet genom att addera alla påverkande krafter, som ligger sparade i listan forces
     public void calcFnet(){
         F_net = new Vec2D(0,0);
 

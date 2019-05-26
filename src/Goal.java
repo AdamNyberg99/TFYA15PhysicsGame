@@ -14,6 +14,7 @@ public class Goal {
         this.counter = 0;
     }
 
+    //Tittar om en partikels koordinater är innanför målets koordinate
     public boolean ballInside(ParticleTwo ball){
         if (xCoord<=ball.getX() && ball.getX()<=(xCoord + width) && yCoord<= ball.getY() && ball.getY() <= (yCoord + height)){
             return true;
@@ -23,6 +24,7 @@ public class Goal {
         }
     }
 
+    //Om boll innanför har vi vunnit
     public boolean checkVictory (ParticleTwo ball){
         if(ballInside(ball)) {
             {
@@ -33,6 +35,7 @@ public class Goal {
         return false;
     }
 
+    //Ritar upp målet med de koordinater som skickas med som argument i konstruktören
     public void render(Graphics2D g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.gray);
@@ -40,6 +43,7 @@ public class Goal {
         // g.fillRect((int)xCoord,(int)yCoord,(int)width,(int)height);
     }
 
+    //Skapar en ny Jframe med ett textmeddelande vid vinst
     public void victory(){
 
         JFrame myFrame = new JFrame("Victory");

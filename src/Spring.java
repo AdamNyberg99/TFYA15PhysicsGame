@@ -28,6 +28,7 @@ public class Spring{
         ballInAir = false;
     }
 
+    // Uppdaterar objektet och skjuter iväg bollen om musen har släpts
     public void update(){
         calcAngle();
         calcNewLength();
@@ -42,6 +43,7 @@ public class Spring{
         }
     }
 
+    // Äkar fjäderns längd i den riktning som muspekaren beffiner sig
     public void calcNewLength(){
         kastarm += ext;
         kastarmX = Math.cos(angle)*kastarm;
@@ -51,6 +53,7 @@ public class Spring{
             stopExtend();
     }
 
+    // Fäster bollen på fjädern
     public void setBallPos(){
 
         p2.setAcel(new Vec2D(0,0));
@@ -58,17 +61,19 @@ public class Spring{
         p2.setPos(newBallPos);
     }
 
+    // Beräknar kraften och utifrån den accelerationen som fjädern ger bollen
     public void calcForce(){
         force = -k*(kastarm-restLength);
         newAcel  = new Vec2D(-force/p2.getMass() * Math.cos(angle),-force/p2.getMass() * Math.sin(angle));
     }
 
+    // Beräknar vinkeln som muspekaren drar ut bollen i
     public void calcAngle(){
         angle = Math.atan2(mouseY-springPos.getY(), springPos.getX()-mouseX);
         invAngle = -angle + Math.PI/2;
     }
 
-
+    // Mplar alla komponenter i fjäder-kanonen.
     public void render(Graphics2D g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.CYAN);
@@ -90,6 +95,7 @@ public class Spring{
 
     private void stopExtend(){ ext=0; }
 
+    // Minskar längden på fjädern när muspekaren har släppts
     public void decrease(){
         ext -= 2;
         kastarm=restLength+ext;
